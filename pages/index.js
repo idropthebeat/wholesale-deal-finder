@@ -1,8 +1,12 @@
-export default function Home() {
+import '../styles/globals.css'
+import { SessionProvider } from 'next-auth/react'
+
+function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
-    <div>
-      <h1>Wholesale Deal Finder</h1>
-      <p>Welcome to your real estate wholesale deal finder application!</p>
-    </div>
+    <SessionProvider session={session}>
+      <Component {...pageProps} />
+    </SessionProvider>
   )
 }
+
+export default MyApp
