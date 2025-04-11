@@ -1,25 +1,4 @@
-import NextAuth from 'next-auth'
-import GoogleProvider from 'next-auth/providers/google'
-
-export default NextAuth({
-  providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    }),
-  ],
-  secret: process.env.NEXTAUTH_SECRET,
-  session: {
-    strategy: 'jwt',
-  },
-  callbacks: {
-    async session({ session, token }) {
-      session.user.id = token.sub
-      return session
-    },
-  },
-  pages: {
-    signIn: '/',
-    error: '/',
-  },
-})
+// Auth disabled for now
+export default function handler(req, res) {
+  return res.status(200).json({ message: 'Auth is currently disabled.' });
+}
