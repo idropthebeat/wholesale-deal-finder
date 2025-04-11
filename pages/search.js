@@ -42,6 +42,7 @@ export default function SearchPage() {
   )
 }
 
+// Auth temporarily disabled on server side
 export async function getServerSideProps() {
   return { props: {} }
 }
