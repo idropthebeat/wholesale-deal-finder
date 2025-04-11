@@ -1,9 +1,8 @@
-// import { useSession, signIn, signOut } from 'next-auth/react'
 import Link from 'next/link'
 import Head from 'next/head'
 
 export default function MainLayout({ children, title = 'Wholesale Deal Finder' }) {
-  // Auth temporarily disabled
+  // Auth is disabled – do not call useSession()
   // const { data: session } = useSession()
 
   return (
@@ -24,7 +23,7 @@ export default function MainLayout({ children, title = 'Wholesale Deal Finder' }
                 </Link>
               </div>
 
-              {/* Auth removed — always show nav for now */}
+              {/* Auth removed – always show nav for now */}
               <nav className="ml-6 flex space-x-8">
                 <Link href="/search" className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
                   Search
@@ -39,9 +38,25 @@ export default function MainLayout({ children, title = 'Wholesale Deal Finder' }
             </div>
 
             <div className="flex items-center">
-              {/* Auth buttons disabled for now */}
-              {/* 
-              {session ? (
-                <div className="flex items-center space-x-4">
-                  <span className="text-sm text-gray-700">{session.user.name}</span>
-                  <
+              {/* Auth buttons removed */}
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main className="flex-grow">
+        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+          {children}
+        </div>
+      </main>
+
+      <footer className="bg-white">
+        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+          <p className="text-center text-gray-500 text-sm">
+            &copy; {new Date().getFullYear()} Axiom Creative Real Estate Investments. All rights reserved.
+          </p>
+        </div>
+      </footer>
+    </div>
+  )
+}
