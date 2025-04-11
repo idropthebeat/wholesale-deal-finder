@@ -5,7 +5,7 @@ import SearchForm from '../components/search/SearchForm'
 import DealsList from '../components/deals/DealsList'
 
 export default function SearchPage() {
-  // Auth temporarily disabled
+  // Auth is disabled – do not call useSession()
   // const { data: session } = useSession()
 
   const [deals, setDeals] = useState([])
@@ -19,12 +19,9 @@ export default function SearchPage() {
     try {
       const response = await fetch('/api/deals/search', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(searchParams),
       })
-
       const data = await response.json()
       setDeals(data.deals || [])
     } catch (error) {
@@ -39,18 +36,12 @@ export default function SearchPage() {
     <MainLayout title="Search Deals">
       <div className="space-y-8">
         <SearchForm onSearch={handleSearch} />
-
-        {searched && (
-          <DealsList deals={deals} loading={loading} />
-        )}
+        {searched && <DealsList deals={deals} loading={loading} />}
       </div>
     </MainLayout>
   )
 }
 
-// Auth temporarily disabled
 export async function getServerSideProps() {
-  return {
-    props: {}
-  }
+  return { props: {} }
 }
