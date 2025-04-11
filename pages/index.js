@@ -4,7 +4,7 @@ import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
-  // Auth temporarily disabled
+  // Auth is disabled – do not call useSession()
   // const { data: session } = useSession()
 
   return (
@@ -29,6 +29,17 @@ export default function Home() {
             <h3>Search Deals &rarr;</h3>
             <p>Search for wholesale deals across multiple platforms.</p>
           </Link>
-
+          
           <Link href="/buyboxes" className={styles.card}>
-            <h3>Manage Buy Boxes &
+            <h3>Manage Buy Boxes &rarr;</h3>
+            <p>Create and manage your investment criteria.</p>
+          </Link>
+        </div>
+      </main>
+
+      <footer className={styles.footer}>
+        <p>Powered by Axiom Creative Real Estate Investments</p>
+      </footer>
+    </div>
+  )
+}
