@@ -23,18 +23,21 @@ export default function MainLayout({ children, title = 'Wholesale Deal Finder' }
                 </Link>
               </div>
 
-              {/* Auth removed – always show nav for now */}
-              <nav className="ml-6 flex space-x-8">
-                <Link href="/search" className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
-                  Search
-                </Link>
-                <Link href="/buyboxes" className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
-                  Buy Boxes
-                </Link>
-                <Link href="/saved" className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
-                  Saved Deals
-                </Link>
-              </nav>
+             <nav className="ml-6 flex space-x-8">
+  <Link href="/search" className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+    Search
+  </Link>
+  <Link href="/buyboxes" className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+    Buy Boxes
+  </Link>
+  <Link href="/account-integrations" className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+    Account Integrations
+  </Link>
+  <Link href="/saved" className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+    Saved Deals
+  </Link>
+</nav>
+
             </div>
 
             <div className="flex items-center">
