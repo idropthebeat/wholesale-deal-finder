@@ -1,50 +1,13 @@
-import { getSession } from 'next-auth/react'
-import DataAggregator from '../../../lib/data-aggregator'
+// pages/api/deals/search.js
 
-export default async function handler(req, res) {
-  const session = await getSession({ req })
-
-  // If you are not enforcing auth for search,
-  // you can skip the session check:
-  // if (!session) return res.status(401).json({ message: 'Unauthorized' })
-
+export default function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' })
+    return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  try {
-    const searchParams = req.body
-    // Get user integrations from your database;
-    // For demonstration, we use static mock integrations:
-    const userIntegrations = {
-      facebook: { connected: false, username: '', password: '' },
-      keyglee: { connected: false, username: '', password: '' },
-      offermarket: { connected: false, username: '', password: '' },
-      wholster: { connected: false, username: '', password: '' },
-      propstream: { connected: false, apiKey: '' },
-      reddit: { connected: false, username: '', password: '' },
-      dealmachine: { connected: false, apiKey: '' },
-      biggerpockets: { connected: false, username: '', password: '' },
-      dealsauce: { connected: false, username: '', password: '' }
-    }
-    // Determine if any platforms are connected
-    const connectedPlatforms = Object.values(userIntegrations).filter(i => i.connected)
-    if (connectedPlatforms.length === 0) {
-      // Return mock deals if no integrations
-      const mockDeals = getMockDeals(searchParams)
-      return res.status(200).json({ deals: mockDeals })
-    }
-    const aggregator = new DataAggregator(userIntegrations)
-    const deals = await aggregator.searchAllPlatforms(searchParams)
-    return res.status(200).json({ deals })
-  } catch (error) {
-    console.error('Search error:', error)
-    return res.status(500).json({ message: 'Internal server error' })
-  }
-}
+  const params = req.body;
 
-// Function to generate mock deals (fallback)
-function getMockDeals(params) {
+  // --- Your mock deals here (expand as needed) ---
   const mockDeals = [
     {
       id: 'om-1',
@@ -67,62 +30,72 @@ function getMockDeals(params) {
       roi: 33.3,
       arvRatio: 1.56,
       ruleAnalysis: 16000,
-      marketStrength: 'Strong Market',
-      populationGrowth: 'High',
-      jobGrowth: 'Strong',
-      priceTrends: 'Appreciating',
-      propertyTypeRating: 'Preferred',
-      bedBathRating: 'Good',
-      sqftRating: 'Average',
-      ageRating: 'Average',
-      ageRisk: 'Moderate',
-      repairRisk: 'Moderate',
-      marketVolatility: 'Low',
-      regulatoryRisk: 'Low',
-      recommendation: 'EXCELLENT DEAL - This property shows strong investment potential with solid returns.',
-      scores: {
-        financial: 88,
-        market: 85,
-        property: 80,
-        risk: 82
-      },
       dealScore: 85
-    }
-    // Add additional mock deals here if desired
-  ]
+    },
+    {
+      id: 'om-2',
+      address: '456 Oak Ave',
+      city: 'Austin',
+      state: 'TX',
+      zipCode: '78704',
+      propertyType: 'Single Family',
+      beds: 4,
+      baths: 3,
+      sqft: 2200,
+      yearBuilt: 2000,
+      askingPrice: 220000,
+      estimatedArv: 350000,
+      repairCost: 40000,
+      potentialProfit: 90000,
+      source: 'OfferMarket',
+      sourceUrl: 'https://www.offermarket.us/property/456-oak-ave',
+      description: 'Spacious family home in desirable neighborhood. Great flip opportunity.',
+      roi: 34.6,
+      arvRatio: 1.59,
+      ruleAnalysis: 5000,
+      dealScore: 82
+    },
+    // …add more mock deals if you like
+  ];
 
-  let filteredDeals = [...mockDeals]
+  let results = [...mockDeals];
+
+  // --- filter by each param if provided ---
   if (params.location) {
-    const locationLower = params.location.toLowerCase()
-    filteredDeals = filteredDeals.filter(deal =>
-      deal.city.toLowerCase().includes(locationLower) ||
-      deal.state.toLowerCase().includes(locationLower) ||
-      deal.zipCode.includes(params.location)
-    )
+    const loc = params.location.toLowerCase();
+    results = results.filter(d =>
+      d.city.toLowerCase().includes(loc) ||
+      d.state.toLowerCase().includes(loc) ||
+      d.zipCode.includes(params.location)
+    );
   }
   if (params.propertyType) {
-    filteredDeals = filteredDeals.filter(deal => deal.propertyType === params.propertyType)
+    results = results.filter(d => d.propertyType === params.propertyType);
   }
   if (params.minBeds) {
-    filteredDeals = filteredDeals.filter(deal => deal.beds >= parseInt(params.minBeds))
+    results = results.filter(d => d.beds >= parseInt(params.minBeds, 10));
   }
   if (params.minBaths) {
-    filteredDeals = filteredDeals.filter(deal => deal.baths >= parseInt(params.minBaths))
+    results = results.filter(d => d.baths >= parseInt(params.minBaths, 10));
   }
   if (params.minPrice) {
-    filteredDeals = filteredDeals.filter(deal => deal.askingPrice >= parseInt(params.minPrice))
+    results = results.filter(d => d.askingPrice >= parseInt(params.minPrice, 10));
   }
   if (params.maxPrice) {
-    filteredDeals = filteredDeals.filter(deal => deal.askingPrice <= parseInt(params.maxPrice))
+    results = results.filter(d => d.askingPrice <= parseInt(params.maxPrice, 10));
   }
   if (params.minSqFt) {
-    filteredDeals = filteredDeals.filter(deal => deal.sqft >= parseInt(params.minSqFt))
+    results = results.filter(d => d.sqft >= parseInt(params.minSqFt, 10));
   }
   if (params.maxSqFt) {
-    filteredDeals = filteredDeals.filter(deal => deal.sqft <= parseInt(params.maxSqFt))
+    results = results.filter(d => d.sqft <= parseInt(params.maxSqFt, 10));
   }
   if (params.yearBuilt) {
-    filteredDeals = filteredDeals.filter(deal => deal.yearBuilt >= parseInt(params.yearBuilt))
+    results = results.filter(d => d.yearBuilt >= parseInt(params.yearBuilt, 10));
   }
-  return filteredDeals
+
+  // sort highest‑score first
+  results.sort((a, b) => b.dealScore - a.dealScore);
+
+  return res.status(200).json({ deals: results });
 }
