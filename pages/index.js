@@ -34,6 +34,11 @@ export default function Home() {
             <h3>Manage Buy Boxes &rarr;</h3>
             <p>Create and manage your investment criteria.</p>
           </Link>
+
+          <Link href="/account-integrations" className={styles.card}>
+            <h3>Account Integrations &rarr;</h3>
+            <p>Connect and manage your data‑source integrations.</p>
+          </Link>
         </div>
       </main>
 
